@@ -1,0 +1,219 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  USER
+  EDITOR
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum Permission {
+  MANAGE_USERS
+  MANAGE_POSTS
+  MANAGE_MEDIA
+  MANAGE_CATEGORIES
+  MANAGE_LAYOUT
+  MANAGE_SETTINGS
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  EMBED
+}
+
+enum SiteContentKind {
+  TEXT
+  IMAGE
+  VIDEO
+}
+
+model User {
+  id              String             @id @default(cuid())
+  name            String?
+  email           String             @unique
+  passwordHash    String?
+  emailVerified   DateTime?
+  image           String?
+  role            UserRole           @default(USER)
+  isActive        Boolean            @default(true)
+  adminProfile    AdminProfile?
+  accounts        Account[]
+  sessions        Session[]
+  posts           Post[]             @relation("PostAuthor")
+  editedPosts     Post[]             @relation("PostEditor")
+  invitations     AdminInvitation[]  @relation("InvitedBy")
+  auditLogs       AuditLog[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+}
+
+model AdminProfile {
+  id              String            @id @default(cuid())
+  userId          String            @unique
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permissions     AdminPermission[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model AdminPermission {
+  adminProfileId String
+  permission     Permission
+  adminProfile   AdminProfile @relation(fields: [adminProfileId], references: [id], onDelete: Cascade)
+
+  @@id([adminProfileId, permission])
+}
+
+model AdminInvitation {
+  id          String    @id @default(cuid())
+  email       String
+  role        UserRole
+  tokenHash   String    @unique
+  invitedById String
+  invitedBy   User      @relation("InvitedBy", fields: [invitedById], references: [id], onDelete: Restrict)
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([email])
+  @@index([expiresAt])
+}
+
+model Account {
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([sessionToken])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  isActive    Boolean  @default(true)
+  posts       Post[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Post {
+  id           String       @id @default(cuid())
+  title        String
+  slug         String       @unique
+  excerpt      String?
+  content      Json
+  status       PostStatus   @default(DRAFT)
+  publishedAt  DateTime?
+  categoryId   String
+  authorId     String
+  editorId     String?
+  category     Category     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  author       User         @relation("PostAuthor", fields: [authorId], references: [id], onDelete: Restrict)
+  editor       User?        @relation("PostEditor", fields: [editorId], references: [id], onDelete: SetNull)
+  layout       PostLayout?
+  media        Media[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([status, publishedAt])
+  @@index([categoryId, status])
+}
+
+model PostLayout {
+  id          String   @id @default(cuid())
+  postId      String   @unique
+  variant     String   @default("CARD_1X1")
+  columnSpan  Int      @default(4)
+  rowSpan     Int      @default(1)
+  priority    Int      @default(0)
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteContent {
+  id        String          @id @default(cuid())
+  key       String          @unique
+  kind      SiteContentKind
+  value     String          @db.Text
+  updatedAt DateTime        @updatedAt
+  createdAt DateTime        @default(now())
+}
+
+model SiteSettings {
+  id              String   @id @default("global")
+  editModeEnabled Boolean  @default(false)
+  updatedAt       DateTime @updatedAt
+}
+
+model Media {
+  id          String    @id @default(cuid())
+  type        MediaType
+  url         String
+  storageKey  String?
+  altText     String?
+  title       String?
+  postId      String?
+  post        Post?     @relation(fields: [postId], references: [id], onDelete: SetNull)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([postId])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  action     String
+  entity     String
+  entityId   String?
+  metadata   Json?
+  actorId    String
+  actor      User     @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  createdAt  DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([entity, entityId])
+}
