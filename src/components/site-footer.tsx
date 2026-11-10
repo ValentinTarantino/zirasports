@@ -23,19 +23,19 @@ export default function SiteFooter() {
     <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
       <div className="relative grid gap-10 py-12 sm:py-14 lg:grid-cols-[0.85fr_1.4fr] lg:gap-16 lg:py-16">
         <div className="relative flex items-center gap-5">
-          <Link href="/" aria-label="Volver al inicio de Zirasport" className="group relative h-[76px] w-[76px] shrink-0 overflow-hidden rounded-full border border-white/25 bg-zinc-900 shadow-[0_8px_32px_rgba(0,0,0,0.45)] transition group-hover:border-pink-300">
-            <Image src={logoPath} alt="Logo de Zirasport" fill sizes="76px" quality={100} className="object-cover" />
+          <Link href="/" aria-label="Volver al inicio de Zirasports" className="group relative h-[76px] w-[76px] shrink-0 overflow-hidden rounded-full border border-white/25 bg-zinc-900 shadow-[0_8px_32px_rgba(0,0,0,0.45)] transition group-hover:border-pink-300">
+            <Image src={logoPath} alt="Logo de Zirasports" fill sizes="76px" quality={100} className="object-cover" />
           </Link>
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-pink-300">Noticias · análisis · deporte</p>
-            <Link href="/" className="mt-2 block text-[clamp(2rem,4vw,3.35rem)] font-black leading-[0.9] tracking-[-0.07em] text-white"><span>ZIRA</span><span className="text-black [-webkit-text-stroke:1px_white]">SPORT</span></Link>
+            <Link href="/" className="mt-2 block text-[clamp(2rem,4vw,3.35rem)] font-black leading-[0.9] tracking-[-0.07em] text-white"><span>ZIRA</span><span className="text-black [-webkit-text-stroke:1px_white]">SPORTS</span></Link>
             <p className="mt-2 text-[9px] font-bold uppercase tracking-[0.3em] text-zinc-500">Periodismo deportivo</p>
           </div>
         </div>
 
         <div className="self-center lg:border-l lg:border-white/10 lg:pl-12">
           <div className="mb-4 flex items-center gap-3">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.26em] text-zinc-400">Zirasport en redes</h2>
+            <h2 className="text-[10px] font-black uppercase tracking-[0.26em] text-zinc-400">Zirasports en redes</h2>
           </div>
           <nav aria-label="Redes sociales" className="grid gap-x-7 sm:grid-cols-3">
             {networks.map((network) => <a key={network.label} href={network.href} target="_blank" rel="noreferrer noopener" className="group flex min-w-0 items-center gap-3 border-y border-white/10 py-4 transition-colors hover:border-pink-400/70 sm:border-b-0 sm:border-t-0 sm:py-2">
@@ -56,7 +56,7 @@ export default function SiteFooter() {
       </div>
 
       <div className="flex flex-col gap-2 py-4 text-[11px] text-zinc-600 sm:flex-row sm:items-center sm:justify-between">
-        <p>© Zirasport</p>
+        <p>© Zirasports</p>
         <p>Periodismo deportivo</p>
       </div>
       <Suspense fallback={null}><AdminEditToolsFooter /></Suspense>

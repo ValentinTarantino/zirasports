@@ -7,8 +7,8 @@ import "./globals.css";
 const logoPath = "/brand/MINIATURA_F1_ALL_BOYS_20261002_003446_0000.png";
 
 export const metadata: Metadata = {
-  title: { default: "Zirasport | Noticias deportivas", template: "%s | Zirasport" },
-  description: "Noticias, actualidad y contenido deportivo de Zirasport.",
+  title: { default: "Zirasports | Noticias deportivas", template: "%s | Zirasports" },
+  description: "Noticias, actualidad y contenido deportivo de Zirasports.",
   icons: { icon: logoPath, apple: logoPath },
 };
 

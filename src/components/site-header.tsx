@@ -58,12 +58,12 @@ export default function SiteHeader() {
 
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className={`flex items-center gap-4 transition-all duration-300 ${scrolled ? "min-h-[74px]" : "min-h-[104px]"}`}>
-          <Link href="/" className="group flex min-w-0 shrink-0 items-center gap-3 sm:gap-4" aria-label="Zirasport, inicio">
+          <Link href="/" className="group flex min-w-0 shrink-0 items-center gap-3 sm:gap-4" aria-label="Zirasports, inicio">
             <span className={`relative grid shrink-0 place-items-center overflow-hidden rounded-full bg-zinc-900 ring-1 ring-white/35 transition-all duration-300 group-hover:ring-pink-300 ${scrolled ? "h-12 w-12" : "h-14 w-14 sm:h-16 sm:w-16"}`}>
-              <Image src={logoPath} alt="Logo de Zirasport" width={128} height={128} priority quality={100} className="h-full w-full rounded-full object-cover transition duration-300 group-hover:scale-105" />
+              <Image src={logoPath} alt="Logo de Zirasports" width={128} height={128} priority quality={100} className="h-full w-full rounded-full object-cover transition duration-300 group-hover:scale-105" />
             </span>
             <span className="min-w-0">
-              <span className={`block whitespace-nowrap font-black leading-none tracking-[-0.06em] ${scrolled ? "text-2xl sm:text-3xl" : "text-[27px] sm:text-4xl"}`}><span>ZIRA</span><span className="text-black [-webkit-text-stroke:1px_white]">SPORT</span></span>
+              <span className={`block whitespace-nowrap font-black leading-none tracking-[-0.06em] ${scrolled ? "text-2xl sm:text-3xl" : "text-[27px] sm:text-4xl"}`}><span>ZIRA</span><span className="text-black [-webkit-text-stroke:1px_white]">SPORTS</span></span>
               <span className="mt-1.5 block whitespace-nowrap text-[8px] font-black uppercase tracking-[0.3em] text-zinc-300 sm:text-[9px]">Periodismo deportivo</span>
             </span>
           </Link>
