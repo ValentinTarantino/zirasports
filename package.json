@@ -14,12 +14,14 @@
     "db:seed": "node --env-file=.env prisma/seed.mjs"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^6.19.3",
     "@prisma/client": "^6.19.3",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.11.0",
     "next": "16.4.5",
     "next-auth": "^5.0.0-beta.32",
+    "pg": "^8.23.1",
     "prisma": "^6.19.3",
     "react": "19.3.0",
     "react-dom": "19.3.0"
