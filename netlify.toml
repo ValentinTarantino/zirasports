@@ -1,0 +1,4 @@
+[build.environment]
+# Cloudinary cloud names are public identifiers included in image URLs and
+# Next.js image manifests. Keep scanning enabled for all actual credentials.
+SECRETS_SCAN_OMIT_KEYS = "CLOUDINARY_CLOUD_NAME"
